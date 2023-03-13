@@ -73,11 +73,33 @@ class User {
         }
         return (save);
     }
+    public boolean doesTvShowExist(TVShow tvShow)
+    {
+        boolean existance = false;
+        for (int i=0; i<favoriteShows.size(); i++)
+        {
+            if (tvShow.getTitle().equals(favoriteShows.get(i).getTitle()))
+            {
+                existance = true;
+            }
+        }
+        return existance;
+    }
     public void addToFavorites(TVShow show) {
         // Implement add to favorites logic here
+        if (doesTvShowExist(show))
+        {
+            System.out.println("This show has been added!");
+        }
+        else
+        {
+            favoriteShows.add(show);
+        }
+
     }
     public void viewFavorites() {
         // Implement view favorites logic here
+        System.out.println(favoriteShows);
     }
     public ArrayList<TVShow> getRecommendations() {
         // Implement get recommendations logic here
