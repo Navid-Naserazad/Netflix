@@ -34,6 +34,10 @@ class User {
     public void setPassword(String password) {
         this.password = password;
     }
+    public void changePassword(String pass)
+    {
+        this.password = pass;
+    }
 
     public boolean getLogInStatus() {
         return logInStatus;
@@ -117,6 +121,10 @@ class User {
     public void viewFavorites() {
         // Implement view favorites logic here
         System.out.println(favoriteShows);
+    }
+    public void viewWatchHistory() {
+        // Implement view favorites logic here
+        System.out.println(watchHistory);
     }
     public ArrayList<TVShow> getRecommendations() {
         // Implement get recommendations logic here
