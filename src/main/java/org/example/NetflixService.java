@@ -259,5 +259,16 @@ class NetflixService {
         }
         return (save);
     }
+    public TVShow searchShow(String title)
+    {
+        for (int i=0; i<tvShows.size(); i++)
+        {
+            if (title.equals(tvShows.get(i).getTitle()))
+            {
+                return tvShows.get(i);
+            }
+        }
+        return null;
+    }
 }
 

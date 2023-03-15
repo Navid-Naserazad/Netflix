@@ -97,8 +97,8 @@ public class Main {
             System.out.println("Enter TV show's title");
             System.out.println("TV show's title : ");
             String title = input.nextLine();
-            show.setTitle(title);
-            user.watchAShow(netflix, show);
+            TVShow watchingShow = netflix.searchShow(title);
+            user.watchAShow(netflix, watchingShow);
             exitOrBackToUserMenu(netflix, show, movie, user, admin);
         }
         else if (command == 2)
@@ -168,8 +168,8 @@ public class Main {
             System.out.println("Enter TV show's title");
             System.out.println("TV show's title : ");
             String title = input.nextLine();
-            show.setTitle(title);
-            user.addToFavorites(netflix, show);
+            TVShow addingShow = netflix.searchShow(title);
+            user.addToFavorites(netflix, addingShow);
             exitOrBackToUserMenu(netflix, show, movie, user, admin);
         }
         else if (command == 5)
