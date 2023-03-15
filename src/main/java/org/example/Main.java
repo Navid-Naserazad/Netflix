@@ -4,33 +4,39 @@ import java.util.Scanner;
 public class Main {
     //don't limit yourself to our template ***
 
-    public static void main(String[] args) {
-
+    public static void main(String[] args)
+    {
+        NetflixService netflix = new NetflixService();
+        TVShow show = new TVShow("", "", 0, "", 0.0);
+        Movie movie = new Movie("", "", 0, "", 0.0, "");
+        User user = new User("", "");
+        Admin admin = new Admin("", "");
+        runMenu(netflix, show, movie, user, admin);
     }
 
-
-    public static void runMenu(NetflixService netflix, TVShow show, Movie movie, User user){
+    public static void runMenu(NetflixService netflix, TVShow show, Movie movie, User user, Admin admin)
+    {
         //TODO:
         Scanner input = new Scanner(System.in);
         String username;
         String password;
         int command;
         System.out.println("Welcome to The Netflix");
-        System.out.println("1. Admin");
-        System.out.println("2. User");
+        System.out.println("1. User");
+        System.out.println("2. Admin");
         System.out.println("Enter your command");
         System.out.println("Command : ");
         command = Integer.parseInt(input.nextLine());
         if (command == 1)
         {
-            userMenu(netflix, show, movie, user);
+            userMenu(netflix, show, movie, user, admin);
         }
         else
         {
-
+            adminMenu(netflix, show, movie, user, admin);
         }
     }
-    public static void userMenu(NetflixService netflix, TVShow show, Movie movie, User user)
+    public static void userMenu(NetflixService netflix, TVShow show, Movie movie, User user, Admin admin)
     {
         Scanner input = new Scanner(System.in);
         String username;
@@ -48,12 +54,12 @@ public class Main {
             password = input.nextLine();
             if (netflix.createAccountUser(username, password))
             {
-                userLoggedInMenu(netflix, show, movie, user);
+                userLoggedInMenu(netflix, show, movie, user, admin);
             }
             else
             {
                 System.out.println("Choose another username!");
-                runMenu(netflix, show, movie, user);
+                runMenu(netflix, show, movie, user, admin);
             }
         }
         else
@@ -64,15 +70,14 @@ public class Main {
             password = input.nextLine();
             if (netflix.loginUser(username, password))
             {
-                userLoggedInMenu(netflix, show, movie, user);
+                userLoggedInMenu(netflix, show, movie, user, admin);
             }
             else {
-                runMenu(netflix, show, movie, user);
+                runMenu(netflix, show, movie, user, admin);
             }
         }
     }
-
-    public static void userLoggedInMenu(NetflixService netflix, TVShow show, Movie movie, User user)
+    public static void userLoggedInMenu(NetflixService netflix, TVShow show, Movie movie, User user, Admin admin)
     {
         Scanner input = new Scanner(System.in);
         System.out.println("1. Watch a TV show");
@@ -160,11 +165,26 @@ public class Main {
         }
         else if (command == 7)
         {
-
+            System.out.println("Enter your current password");
+            System.out.println("Your current password : ");
+            String password = input.nextLine();
+            if (netflix.passwordCheckUser(user.getUsername(), password))
+            {
+                System.out.println("Enter your new password");
+                System.out.println("Your new password : ");
+                String newPassword = input.nextLine();
+                user.setPassword(newPassword);
+            }
+            else
+            {
+                System.out.println("Wrong password");
+                System.out.println("Try again");
+            }
         }
         else if (command == 8)
         {
             netflix.logoutUser(user);
+            runMenu(netflix, show, movie, user, admin);
         }
     }
     public static void adminMenu(NetflixService netflix, TVShow show, Movie movie, User user , Admin admin)
@@ -183,11 +203,14 @@ public class Main {
             username = input.nextLine();
             System.out.println("Enter your password : ");
             password = input.nextLine();
-            if (netflix.createAccountAdmin(username, password)) {
+            if (netflix.createAccountAdmin(username, password))
+            {
                 adminLoggedInMenu(netflix, show, movie, user, admin);
-            } else {
+            }
+            else
+            {
                 System.out.println("Choose another username!");
-                runMenu(netflix, show, movie, user);
+                runMenu(netflix, show, movie, user, admin);
             }
         }
         else
@@ -200,8 +223,9 @@ public class Main {
             {
                 adminLoggedInMenu(netflix, show, movie, user, admin);
             }
-            else {
-                runMenu(netflix, show, movie, user);
+            else
+            {
+                runMenu(netflix, show, movie, user, admin);
             }
         }
     }
@@ -260,11 +284,26 @@ public class Main {
         }
         else if (command == 3)
         {
-
+            System.out.println("Enter your current password");
+            System.out.println("Your current password : ");
+            String password = input.nextLine();
+            if (netflix.passwordCheckAdmin(admin.getUsername(), password))
+            {
+                System.out.println("Enter your new password");
+                System.out.println("Your new password : ");
+                String newPassword = input.nextLine();
+                admin.setPassword(newPassword);
+            }
+            else
+            {
+                System.out.println("Wrong password");
+                System.out.println("Try again");
+            }
         }
         else if (command == 4)
         {
             netflix.logoutAdomin(admin);
+            runMenu(netflix, show, movie, user, admin);
         }
     }
 }
