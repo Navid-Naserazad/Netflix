@@ -11,6 +11,7 @@ class User {
      */
     private String username;
     private String password;
+    private boolean logInStatus = false;
 
     public User(String username, String password)
     {
@@ -32,6 +33,16 @@ class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean getLogInStatus() {
+        return logInStatus;
+    }
+    public void setLogInStatus(boolean logInStatus) {
+        this.logInStatus = logInStatus;
+    }
+    public void changeLogInStatus(){
+        this.logInStatus = !logInStatus;
     }
 
     ArrayList<TVShow> favoriteShows = new ArrayList<>();
@@ -85,17 +96,23 @@ class User {
         }
         return existance;
     }
-    public void addToFavorites(TVShow show) {
+    public void addToFavorites(NetflixService netflix, TVShow show) {
         // Implement add to favorites logic here
-        if (doesTvShowExist(show))
+        if (netflix.doesTvShowExist(show))
         {
-            System.out.println("This show has been added!");
+            if (doesTvShowExist(show))
+            {
+                System.out.println("This show has been added!");
+            }
+            else
+            {
+                favoriteShows.add(show);
+            }
         }
         else
         {
-            favoriteShows.add(show);
+            System.out.println("This show does not exist!");
         }
-
     }
     public void viewFavorites() {
         // Implement view favorites logic here
@@ -104,5 +121,16 @@ class User {
     public ArrayList<TVShow> getRecommendations() {
         // Implement get recommendations logic here
         return null;
+    }
+    public void watchAShow(NetflixService netflix, TVShow show)
+    {
+        if (netflix.doesTvShowExist(show))
+        {
+            watchHistory.add(show);
+        }
+        else
+        {
+            System.out.println("This show does not exist!");
+        }
     }
 }

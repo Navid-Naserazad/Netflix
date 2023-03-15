@@ -12,7 +12,6 @@ class NetflixService {
     ArrayList<TVShow> tvShows = new ArrayList<>();
     ArrayList<Movie> movies = new ArrayList<>();
 
-
     public boolean doesTvShowExist(TVShow tvShow)
     {
         boolean existance = false;
@@ -37,12 +36,12 @@ class NetflixService {
         }
         return existance;
     }
-    public boolean doesUserExist(String username)
+    public boolean doesUserExist(User user)
     {
         boolean existance = false;
         for (int i=0; i<users.size(); i++)
         {
-            if (username.equals(users.get(i).getUsername()))
+            if (user.getUsername().equals(users.get(i).getUsername()))
             {
                 existance = true;
             }
@@ -90,38 +89,47 @@ class NetflixService {
 
     public void createAccount(String username, String password) {
         // Implement create account logic here
-        if (doesUserExist(username))
+        User currentUser = new User(username, password);
+        if (doesUserExist(currentUser))
         {
             System.out.println("This username has been taken!");
         }
         else
         {
-            User user = new User(username, password);
-            users.add(user);
+            users.add(currentUser);
         }
     }
 
-    public boolean login(String username, String password) {
+    public void login(String username, String password) {
         // Implement login logic here
-        if (doesUserExist(username))
+        User currentUser = new User(username, password);
+        if (doesUserExist(currentUser))
         {
             if (passwordCheck(username, password))
             {
-                return true;
+                currentUser.setLogInStatus(true);
             }
             else
             {
-                return false;
+                currentUser.setLogInStatus(false);
             }
         }
         else
         {
-            return false;
+            currentUser.setLogInStatus(false);
         }
     }
 
-    public void logout() {
+    public void logout(User user) {
         // Implement logout logic here
+        if (user.getLogInStatus())
+        {
+            user.changeLogInStatus();
+        }
+        else
+        {
+            System.out.println("The user is already logged out!");
+        }
     }
 
     public ArrayList<TVShow> searchByTitle(String title) {
