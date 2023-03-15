@@ -74,4 +74,8 @@ class TVShow {
     }
 
     ArrayList<Cast> casts = new ArrayList<>();
+    public void addCast(Cast cast)
+    {
+        casts.add(cast);
+    }
 }
