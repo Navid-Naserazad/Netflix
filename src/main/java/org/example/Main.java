@@ -184,21 +184,7 @@ public class Main {
         }
         else if (command == 7)
         {
-            System.out.println("Enter your current password");
-            System.out.println("Your current password : ");
-            String currentPassword = input.nextLine();
-            if (netflix.passwordCheckUser(user.getUsername(), currentPassword))
-            {
-                System.out.println("Enter your new password");
-                System.out.println("Your new password : ");
-                String newPassword = input.nextLine();
-                user.setPassword(newPassword);
-            }
-            else
-            {
-                System.out.println("Wrong password");
-                System.out.println("Try again");
-            }
+            netflix.changePasswordUser();
             exitOrBackToUserMenu(netflix, show, movie, user, admin);
         }
         else if (command == 8)
@@ -307,21 +293,7 @@ public class Main {
         }
         else if (command == 3)
         {
-            System.out.println("Enter your current password");
-            System.out.println("Your current password : ");
-            String currentPassword = input.nextLine();
-            if (netflix.passwordCheckAdmin(admin.getUsername(), currentPassword))
-            {
-                System.out.println("Enter your new password");
-                System.out.println("Your new password : ");
-                String newPassword = input.nextLine();
-                admin.setPassword(newPassword);
-            }
-            else
-            {
-                System.out.println("Wrong password");
-                System.out.println("Try again");
-            }
+            netflix.changePasswordAdmin();
             exitOrBackToAdminMenu(netflix, show, movie, user, admin);
         }
         else if (command == 4)

@@ -1,6 +1,7 @@
 package org.example;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 class NetflixService {
     /*
@@ -133,7 +134,16 @@ class NetflixService {
             return true;
         }
     }
-
+    public void removeUser(User user)
+    {
+        for (int i=0; i<users.size(); i++)
+        {
+            if (user.getUsername().equals(users.get(i).getUsername()))
+            {
+                users.remove(i);
+            }
+        }
+    }
     public boolean createAccountAdmin(String username, String password) {
         // Implement create account logic here
         Admin currentAdmin = new Admin(username, password);
@@ -146,6 +156,16 @@ class NetflixService {
         {
             admins.add(currentAdmin);
             return true;
+        }
+    }
+    public void removeAdmin(Admin admin)
+    {
+        for (int i=0; i<admins.size(); i++)
+        {
+            if (admin.getUsername().equals(admins.get(i).getUsername()))
+            {
+                admins.remove(i);
+            }
         }
     }
 
@@ -185,6 +205,32 @@ class NetflixService {
             System.out.println("The user is already logged out!");
         }
     }
+
+    public void changePasswordUser()
+    {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter your username : ");
+        System.out.println("Your username : ");
+        String username = input.nextLine();
+        System.out.println("Enter your current password");
+        System.out.println("Your current password : ");
+        String currentPassword = input.nextLine();
+        if (passwordCheckUser(username, currentPassword))
+        {
+            User changePassUser = new User(username, currentPassword);
+            removeUser(changePassUser);
+            System.out.println("Enter your new password");
+            System.out.println("Your new password : ");
+            String newPassword = input.nextLine();
+            changePassUser.setPassword(newPassword);
+            users.add(changePassUser);
+        }
+        else
+        {
+            System.out.println("Wrong password");
+            System.out.println("Try again");
+        }
+    }
     public boolean loginAdmin(String username, String password) {
         // Implement login logic here
         Admin currentAdmin = new Admin(username, password);
@@ -221,6 +267,33 @@ class NetflixService {
             System.out.println("The admin is already logged out!");
         }
     }
+
+    public void changePasswordAdmin()
+    {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter your username : ");
+        System.out.println("Your username : ");
+        String username = input.nextLine();
+        System.out.println("Enter your current password");
+        System.out.println("Your current password : ");
+        String currentPassword = input.nextLine();
+        if (passwordCheckAdmin(username, currentPassword))
+        {
+            Admin changePassAdmin = new Admin(username, currentPassword);
+            removeAdmin(changePassAdmin);
+            System.out.println("Enter your new password");
+            System.out.println("Your new password : ");
+            String newPassword = input.nextLine();
+            changePassAdmin.setPassword(newPassword);
+            admins.add(changePassAdmin);
+        }
+        else
+        {
+            System.out.println("Wrong password");
+            System.out.println("Try again");
+        }
+    }
+
     public ArrayList<TVShow> searchByTitle(String title) {
         // Implement search by title logic here
         ArrayList<TVShow> save = new ArrayList<>();
