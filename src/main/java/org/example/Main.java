@@ -80,6 +80,7 @@ public class Main {
     public static void userLoggedInMenu(NetflixService netflix, TVShow show, Movie movie, User user, Admin admin)
     {
         Scanner input = new Scanner(System.in);
+        System.out.println("Welcome");
         System.out.println("1. Watch a TV show");
         System.out.println("2. Search TV show in netflix");
         System.out.println("3. Search TV show in your favorite shows");
@@ -98,6 +99,7 @@ public class Main {
             String title = input.nextLine();
             show.setTitle(title);
             user.watchAShow(netflix, show);
+            exitOrBackToUserMenu(netflix, show, movie, user, admin);
         }
         else if (command == 2)
         {
@@ -109,19 +111,26 @@ public class Main {
             command = Integer.parseInt(input.nextLine());
             if (command == 1)
             {
+                System.out.println("Enter TV show's title");
+                System.out.println("TV show's title : ");
                 String title = input.nextLine();
                 System.out.println(netflix.searchByTitle(title));
             }
             else if (command == 2)
             {
+                System.out.println("Enter TV show's genre");
+                System.out.println("TV show's genre : ");
                 String genre = input.nextLine();
                 System.out.println(netflix.searchByGenre(genre));
             }
             else if (command == 3)
             {
+                System.out.println("Enter TV show's release year");
+                System.out.println("TV show's release year : ");
                 int releaseYear = Integer.parseInt(input.nextLine());
                 System.out.println(netflix.searchByReleaseYear(releaseYear));
             }
+            exitOrBackToUserMenu(netflix, show, movie, user, admin);
         }
         else if (command == 3)
         {
@@ -133,19 +142,26 @@ public class Main {
             command = Integer.parseInt(input.nextLine());
             if (command == 1)
             {
+                System.out.println("Enter TV show's title");
+                System.out.println("TV show's title : ");
                 String title = input.nextLine();
                 System.out.println(user.searchByTitle(title));
             }
             else if (command == 2)
             {
+                System.out.println("Enter TV show's genre");
+                System.out.println("TV show's genre : ");
                 String genre = input.nextLine();
                 System.out.println(user.searchByGenre(genre));
             }
             else if (command == 3)
             {
+                System.out.println("Enter TV show's release year");
+                System.out.println("TV show's release year : ");
                 int releaseYear = Integer.parseInt(input.nextLine());
                 System.out.println(user.searchByReleaseYear(releaseYear));
             }
+            exitOrBackToUserMenu(netflix, show, movie, user, admin);
         }
         else if (command == 4)
         {
@@ -154,21 +170,24 @@ public class Main {
             String title = input.nextLine();
             show.setTitle(title);
             user.addToFavorites(netflix, show);
+            exitOrBackToUserMenu(netflix, show, movie, user, admin);
         }
         else if (command == 5)
         {
             user.viewFavorites();
+            exitOrBackToUserMenu(netflix, show, movie, user, admin);
         }
         else if (command == 6)
         {
             user.viewWatchHistory();
+            exitOrBackToUserMenu(netflix, show, movie, user, admin);
         }
         else if (command == 7)
         {
             System.out.println("Enter your current password");
             System.out.println("Your current password : ");
-            String password = input.nextLine();
-            if (netflix.passwordCheckUser(user.getUsername(), password))
+            String currentPassword = input.nextLine();
+            if (netflix.passwordCheckUser(user.getUsername(), currentPassword))
             {
                 System.out.println("Enter your new password");
                 System.out.println("Your new password : ");
@@ -180,6 +199,7 @@ public class Main {
                 System.out.println("Wrong password");
                 System.out.println("Try again");
             }
+            exitOrBackToUserMenu(netflix, show, movie, user, admin);
         }
         else if (command == 8)
         {
@@ -232,6 +252,7 @@ public class Main {
     public static void adminLoggedInMenu(NetflixService netflix, TVShow show, Movie movie, User user, Admin admin)
     {
         Scanner input = new Scanner(System.in);
+        System.out.println("Welcome");
         System.out.println("1. Add TV show");
         System.out.println("2. Add movie");
         System.out.println("3. Change password");
@@ -258,6 +279,7 @@ public class Main {
             double rating = Double.parseDouble(input.nextLine());
             TVShow addingShow = new TVShow(title , genre, releaseYear, duration, rating);
             netflix.addTVShow(addingShow);
+            exitOrBackToAdminMenu(netflix, show, movie, user, admin);
         }
         else if (command == 2)
         {
@@ -281,13 +303,14 @@ public class Main {
             String length = input.nextLine();
             Movie addingMovie = new Movie(title , genre, releaseYear, duration, rating, length);
             netflix.addMovie(addingMovie);
+            exitOrBackToAdminMenu(netflix, show, movie, user, admin);
         }
         else if (command == 3)
         {
             System.out.println("Enter your current password");
             System.out.println("Your current password : ");
-            String password = input.nextLine();
-            if (netflix.passwordCheckAdmin(admin.getUsername(), password))
+            String currentPassword = input.nextLine();
+            if (netflix.passwordCheckAdmin(admin.getUsername(), currentPassword))
             {
                 System.out.println("Enter your new password");
                 System.out.println("Your new password : ");
@@ -299,11 +322,46 @@ public class Main {
                 System.out.println("Wrong password");
                 System.out.println("Try again");
             }
+            exitOrBackToAdminMenu(netflix, show, movie, user, admin);
         }
         else if (command == 4)
         {
             netflix.logoutAdomin(admin);
             runMenu(netflix, show, movie, user, admin);
+        }
+    }
+    public static void exitOrBackToUserMenu(NetflixService netflix, TVShow show, Movie movie, User user, Admin admin)
+    {
+        Scanner input = new Scanner(System.in);
+        System.out.println("1. Go back to menu");
+        System.out.println("2. exit");
+        System.out.println("Enter your command");
+        System.out.println("Command : ");
+        int command = Integer.parseInt(input.nextLine());
+        if (command == 1)
+        {
+            userLoggedInMenu(netflix, show, movie, user, admin);
+        }
+        else if (command == 2)
+        {
+            System.exit(0);
+        }
+    }
+    public static void exitOrBackToAdminMenu(NetflixService netflix, TVShow show, Movie movie, User user, Admin admin)
+    {
+        Scanner input = new Scanner(System.in);
+        System.out.println("1. Go back to menu");
+        System.out.println("2. exit");
+        System.out.println("Enter your command");
+        System.out.println("Command : ");
+        int command = Integer.parseInt(input.nextLine());
+        if (command == 1)
+        {
+            adminLoggedInMenu(netflix, show, movie, user, admin);
+        }
+        else if (command == 2)
+        {
+            System.exit(0);
         }
     }
 }
