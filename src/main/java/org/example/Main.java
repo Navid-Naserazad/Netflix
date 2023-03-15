@@ -298,7 +298,7 @@ public class Main {
         }
         else if (command == 4)
         {
-            netflix.logoutAdomin(admin);
+            netflix.logoutAdmin(admin);
             runMenu(netflix, show, movie, user, admin);
         }
     }

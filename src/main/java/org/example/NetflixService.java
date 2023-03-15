@@ -256,7 +256,7 @@ class NetflixService {
         }
     }
 
-    public void logoutAdomin(Admin admin) {
+    public void logoutAdmin(Admin admin) {
         // Implement logout logic here
         if (admin.getLogInStatus())
         {

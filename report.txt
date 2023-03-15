@@ -1,0 +1,108 @@
+Admin class : 
+-username: String
+-password: String
+-logInStatus: boolean
++getUsername(): String
++setUsername(username: Stinrg): void
++getPassword(): String
++setPassword(password: String): void
++getLogInStatus(): boolean
++setLogInStatus(logInStatus: boolean): void
++changeLogInStatus(): void
+Cast class:
+-firstName: String
+-lastName: String
+-age: int
+-gender: String
+-nationality: String
++getFristName(): String
+setFirstName(firstname: String): void
++getLastName(): String
++setLastName(lastname: String): void
++getAge(): int
++setAge(age: int): void
++getGender(): String
++setGendet(): void
++getNationality(): String
++setNationality(nationality: String): void
++toStrning(): String
+Movie class:
+Movie extends TVshow
+-length: String
++getLength(): String
++setLength(length: String): void
++toString(): String
+NetflixService class:
+-admins: ArrayList<admin>
+-users: ArrayList<user>
+-tvShows: ArrayList<TVShow>
+-movies: ArrayList<Movie>
++doesTvShowExist(tvShow: TVShow): boolean
++doesMovieExist(movie: Movie): boolean
++doesUserExist(user: User): boolean
++doesAdminExist(admin: Admin): boolean
++passwordCheckUser(username: String, password: String): boolean
++passwordCheckAdmin(username: String, password: String): boolean
++addTVShow(show: TVShow): void
++addMovie(movie: Movie): void
++createAccountUser(username: String, password: String): boolean
++removeUser(user: User): void
++createAccountAdmin(username: String, password: String): boolean
++removeAdmin(admin: Admin): void
++loginUser(username: String, password: String): boolean
++logoutUser(user: User): void
++changePasswordUser(): void
++loginAdmin(username: String, password: String): boolean
++logoutAdmin(admin: Admin): void
++changePasswordAdmin(): void
++searchByTitle(title: String): ArrayList<TVShow>
++searchByGenre(genre: String): ArrayList<TVShow>
++searchByReleaseYear(year: int): ArrayList<TVShow>
++searchShow(title: String): TVShow
+TVShow class:
+-title: String
+-genre: String
+-releaseYear: int
+-duration: String
+-rating: double
++getTitle(): String
++setTitle(title: String): void
++getGenre(): String
++setGenre(genre: String): void
++getReleaseYear(): int
++setReleaseYear(releaseYear: int): void
++getDuration(): String
++setDuration(duration: String): void
++getRationg(): double
++setRating(rating: double): void
+toString(): String
+User class:
+-username: String
+-password: String
+-logInStatus: boolean
+-favoriteShows: ArrayList<TVShow>
+-watchHistory: ArrayList<TVShow>
++getUsername(): String
++setUsername(username: Stinrg): void
++getPassword(): String
++setPassword(password: String): void
++getLogInStatus(): boolean
++setLogInStatus(logInStatus: boolean): void
++changeLogInStatus(): void
++searchByTitle(title: String): ArrayList<TVShow>
++searchByGenre(genre: String): ArrayList<TVShow>
++searchByReleaseYear(year: int): ArrayList<TVShow>
++doesTvShowExist(tvShow: TVShow): boolean
++addToFavorites(netflix: NetflixService, show: TVShow): void
++viewFavorites(): void
++viewWatchHistory(): void
++watchAShow(netflix: NetflixService, show:TVShow): void
+Main class:
++main(args: String[]): void
++runMenu(netflix: NetflixService, show: TVShow, movie: Movie, user: User, admin:Admin): void
++userMenu(netflix: NetflixService, show: TVShow, movie: Movie, user: User, admin:Admin): void
++userLoggedInMenu(netflix: NetflixService, show: TVShow, movie: Movie, user: User, admin:Admin): void
++adminMenu(netflix: NetflixService, show: TVShow, movie: Movie, user: User, admin:Admin): void
++adminLoggedInMenu(netflix: NetflixService, show: TVShow, movie: Movie, user: User, admin:Admin): void
++exitOrBackToUserMenu(netflix: NetflixService, show: TVShow, movie: Movie, user: User, admin:Admin): void
++exitOrBackToAdminMenu(netflix: NetflixService, show: TVShow, movie: Movie, user: User, admin:Admin): void

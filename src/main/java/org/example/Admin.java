@@ -22,15 +22,9 @@ public class Admin {
     public String getPassword() {
         return password;
     }
-
     public void setPassword(String password) {
         this.password = password;
     }
-    public void changePassword(String pass)
-    {
-        this.password = pass;
-    }
-
     public boolean getLogInStatus() {
         return logInStatus;
     }
