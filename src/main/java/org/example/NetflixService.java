@@ -1,6 +1,7 @@
 package org.example;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 class NetflixService {
     /*
@@ -8,42 +9,339 @@ class NetflixService {
      *The NetflixService should have a User object which represents current user.
      */
 
-    public void addTVShow(TVShow tvShow){
+    ArrayList<Admin> admins = new ArrayList<>();
+    ArrayList<User> users = new ArrayList<>();
+    ArrayList<TVShow> tvShows = new ArrayList<>();
+    ArrayList<Movie> movies = new ArrayList<>();
+
+    public boolean doesTvShowExist(TVShow tvShow)
+    {
+        boolean existance = false;
+        for (int i=0; i<tvShows.size(); i++)
+        {
+            if (tvShow.getTitle().equals(tvShows.get(i).getTitle()))
+            {
+                existance = true;
+            }
+        }
+        return existance;
+    }
+    public boolean doesMovieExist(Movie movie)
+    {
+        boolean existance = false;
+        for (int i=0; i<movies.size(); i++)
+        {
+            if (movie.getTitle().equals(movies.get(i).getTitle()))
+            {
+                existance = true;
+            }
+        }
+        return existance;
+    }
+    public boolean doesUserExist(User user)
+    {
+        boolean existance = false;
+        for (int i=0; i<users.size(); i++)
+        {
+            if (user.getUsername().equals(users.get(i).getUsername()))
+            {
+                existance = true;
+            }
+        }
+        return existance;
+    }
+
+    public boolean doesAdminExist(Admin admin)
+    {
+        boolean existance = false;
+        for (int i=0; i<admins.size(); i++)
+        {
+            if (admin.getUsername().equals(admins.get(i).getUsername()))
+            {
+                existance = true;
+            }
+        }
+        return existance;
+    }
+
+    public boolean passwordCheckUser(String username, String password)
+    {
+        boolean check = false;
+        for (int i=0; i<users.size(); i++)
+        {
+            if (username.equals(users.get(i).getUsername()))
+            {
+                if (password.equals(users.get(i).getPassword()))
+                {
+                    check = true;
+                }
+            }
+        }
+        return check;
+    }
+
+    public boolean passwordCheckAdmin(String username, String password)
+    {
+        boolean check = false;
+        for (int i=0; i<admins.size(); i++)
+        {
+            if (username.equals(admins.get(i).getUsername()))
+            {
+                if (password.equals(admins.get(i).getPassword()))
+                {
+                    check = true;
+                }
+            }
+        }
+        return check;
+    }
+
+    public void addTVShow(TVShow show){
         // Implement add tv show logic here
+        if (doesTvShowExist(show))
+        {
+            System.out.println("This show has been added");
+        }
+        else
+        {
+            tvShows.add(show);
+        }
     }
 
     public void addMovie(Movie movie){
         // Implement add movie logic here
+        if (doesMovieExist(movie))
+        {
+            System.out.println("This movie has been added");
+        }
+        else
+        {
+            movies.add(movie);
+        }
     }
 
-    public void createAccount(String username, String password) {
+    public boolean createAccountUser(String username, String password) {
         // Implement create account logic here
+        User currentUser = new User(username, password);
+        if (doesUserExist(currentUser))
+        {
+            System.out.println("This username has been taken!");
+            return false;
+        }
+        else
+        {
+            users.add(currentUser);
+            return true;
+        }
+    }
+    public void removeUser(User user)
+    {
+        for (int i=0; i<users.size(); i++)
+        {
+            if (user.getUsername().equals(users.get(i).getUsername()))
+            {
+                users.remove(i);
+            }
+        }
+    }
+    public boolean createAccountAdmin(String username, String password) {
+        // Implement create account logic here
+        Admin currentAdmin = new Admin(username, password);
+        if (doesAdminExist(currentAdmin))
+        {
+            System.out.println("This username has been taken!");
+            return false;
+        }
+        else
+        {
+            admins.add(currentAdmin);
+            return true;
+        }
+    }
+    public void removeAdmin(Admin admin)
+    {
+        for (int i=0; i<admins.size(); i++)
+        {
+            if (admin.getUsername().equals(admins.get(i).getUsername()))
+            {
+                admins.remove(i);
+            }
+        }
     }
 
-    public boolean login(String username, String password) {
+    public boolean loginUser(String username, String password) {
         // Implement login logic here
-        return false;
+        User currentUser = new User(username, password);
+        if (doesUserExist(currentUser))
+        {
+            if (passwordCheckUser(username, password))
+            {
+                currentUser.setLogInStatus(true);
+                return true;
+            }
+            else
+            {
+                System.out.println("Wrong password!");
+                currentUser.setLogInStatus(false);
+                return false;
+            }
+        }
+        else
+        {
+            System.out.println("This username does not exist!");
+            currentUser.setLogInStatus(false);
+            return false;
+        }
     }
 
-    public void logout() {
+    public void logoutUser(User user) {
         // Implement logout logic here
+        if (user.getLogInStatus())
+        {
+            user.changeLogInStatus();
+        }
+        else
+        {
+            System.out.println("The user is already logged out!");
+        }
+    }
+
+    public void changePasswordUser()
+    {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter your username : ");
+        System.out.println("Your username : ");
+        String username = input.nextLine();
+        System.out.println("Enter your current password");
+        System.out.println("Your current password : ");
+        String currentPassword = input.nextLine();
+        if (passwordCheckUser(username, currentPassword))
+        {
+            User changePassUser = new User(username, currentPassword);
+            removeUser(changePassUser);
+            System.out.println("Enter your new password");
+            System.out.println("Your new password : ");
+            String newPassword = input.nextLine();
+            changePassUser.setPassword(newPassword);
+            users.add(changePassUser);
+        }
+        else
+        {
+            System.out.println("Wrong password");
+            System.out.println("Try again");
+        }
+    }
+    public boolean loginAdmin(String username, String password) {
+        // Implement login logic here
+        Admin currentAdmin = new Admin(username, password);
+        if (doesAdminExist(currentAdmin))
+        {
+            if (passwordCheckAdmin(username, password))
+            {
+                currentAdmin.setLogInStatus(true);
+                return true;
+            }
+            else
+            {
+                System.out.println("Wrong password!");
+                currentAdmin.setLogInStatus(false);
+                return false;
+            }
+        }
+        else
+        {
+            System.out.println("This username does not exist!");
+            currentAdmin.setLogInStatus(false);
+            return false;
+        }
+    }
+
+    public void logoutAdmin(Admin admin) {
+        // Implement logout logic here
+        if (admin.getLogInStatus())
+        {
+            admin.changeLogInStatus();
+        }
+        else
+        {
+            System.out.println("The admin is already logged out!");
+        }
+    }
+
+    public void changePasswordAdmin()
+    {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter your username : ");
+        System.out.println("Your username : ");
+        String username = input.nextLine();
+        System.out.println("Enter your current password");
+        System.out.println("Your current password : ");
+        String currentPassword = input.nextLine();
+        if (passwordCheckAdmin(username, currentPassword))
+        {
+            Admin changePassAdmin = new Admin(username, currentPassword);
+            removeAdmin(changePassAdmin);
+            System.out.println("Enter your new password");
+            System.out.println("Your new password : ");
+            String newPassword = input.nextLine();
+            changePassAdmin.setPassword(newPassword);
+            admins.add(changePassAdmin);
+        }
+        else
+        {
+            System.out.println("Wrong password");
+            System.out.println("Try again");
+        }
     }
 
     public ArrayList<TVShow> searchByTitle(String title) {
         // Implement search by title logic here
-        return null;
+        ArrayList<TVShow> save = new ArrayList<>();
+        for (int i=0; i<tvShows.size(); i++)
+        {
+            if (title.equals(tvShows.get(i).getTitle()))
+            {
+                save.add(tvShows.get(i));
+            }
+        }
+        return (save);
     }
 
     public ArrayList<TVShow> searchByGenre(String genre) {
         // Implement search by genre logic here
-        return null;
+        ArrayList<TVShow> save = new ArrayList<>();
+        for (int i=0; i<tvShows.size(); i++)
+        {
+            if (genre.equals(tvShows.get(i).getGenre()))
+            {
+                save.add(tvShows.get(i));
+            }
+        }
+        return (save);
     }
 
     public ArrayList<TVShow> searchByReleaseYear(int year) {
         // Implement search by release year logic here
+        ArrayList<TVShow> save = new ArrayList<>();
+        for (int i=0; i<tvShows.size(); i++)
+        {
+            if (year == tvShows.get(i).getReleaseYear())
+            {
+                save.add(tvShows.get(i));
+            }
+        }
+        return (save);
+    }
+    public TVShow searchShow(String title)
+    {
+        for (int i=0; i<tvShows.size(); i++)
+        {
+            if (title.equals(tvShows.get(i).getTitle()))
+            {
+                return tvShows.get(i);
+            }
+        }
         return null;
     }
-
-
 }
 
